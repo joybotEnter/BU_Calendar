@@ -1,0 +1,55 @@
+<ion-header translucent="true">
+  <ion-toolbar class="dept-header">
+    <ion-buttons slot="start">
+      <ion-button class="back-btn" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Departments</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="dept-bg">
+  <div class="container">
+
+    <p class="subtitle">Browse events by department</p>
+
+    <div class="search-bar">
+      <ion-icon name="search-outline"></ion-icon>
+      <input
+        type="text"
+        placeholder="Search departments..."
+        [(ngModel)]="searchTerm"
+      />
+    </div>
+
+    <div class="dept-grid" *ngIf="filteredDepartments.length > 0">
+      <div
+        class="dept-card"
+        *ngFor="let d of filteredDepartments"
+        [style.border-color]="d.color"
+        (click)="openDepartment(d.code)">
+
+        <div class="dept-icon" [style.background]="d.bg">
+          <ion-icon [name]="d.icon" [style.color]="d.color"></ion-icon>
+        </div>
+
+        <div class="dept-info">
+          <div class="dept-code" [style.color]="d.color">{{ d.code }}</div>
+          <div class="dept-name">{{ d.name }}</div>
+          <div class="dept-count">{{ countFor(d.code) }} event{{ countFor(d.code) === 1 ? '' : 's' }}</div>
+        </div>
+
+        <ion-icon class="chevron" name="chevron-forward-outline"></ion-icon>
+
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredDepartments.length === 0">
+      <ion-icon name="search-outline"></ion-icon>
+      <p>No departments found</p>
+      <span>Try a different search term</span>
+    </div>
+
+  </div>
+</ion-content>

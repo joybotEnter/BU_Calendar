@@ -1,0 +1,160 @@
+<ion-header translucent="true">
+  <ion-toolbar class="calendar-header">
+    <ion-buttons slot="start">
+      <ion-button class="back-btn" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Academic Calendar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="calendar-bg">
+
+<div class="hero">
+  <div class="hero-stat">
+    <span class="hero-stat-num">{{ visibleEventCount }}</span>
+    <span class="hero-stat-label">Events this month</span>
+  </div>
+  <div class="hero-divider"></div>
+  <div class="hero-stat">
+    <span class="hero-stat-num">{{ upcomingCount }}</span>
+    <span class="hero-stat-label">Upcoming</span>
+  </div>
+</div>
+
+  <div class="legend-card">
+    <div class="legend-header">
+      <h3>Departments</h3>
+      <small class="clear-link" (click)="toggleAll()">
+        {{ allActive() ? 'Clear all' : 'Select all' }}
+      </small>
+    </div>
+
+    <div class="legend">
+      <div
+        class="chip"
+        *ngFor="let dept of departments"
+        [class.inactive]="!dept.active"
+        [style.background]="dept.active ? dept.color + '18' : '#f1f5f9'"
+        [style.color]="dept.active ? dept.color : '#94a3b8'"
+        (click)="toggleDept(dept)">
+        <span [style.background]="dept.color"></span>
+        {{ dept.code }}
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-wrapper">
+    <full-calendar
+      #calendar
+      *ngIf="calendarOptions"
+      [options]="calendarOptions">
+    </full-calendar>
+  </div>
+
+  <ion-modal class="day-list-modal" [isOpen]="dayListOpen" (didDismiss)="closeDayList()">
+    <ng-template>
+      <div class="modal-card">
+        <div class="modal-topbar">
+          <span class="modal-topbar-title">Events on {{ dayListDate }}</span>
+          <button class="modal-close-btn" (click)="closeDayList()">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
+
+        <div class="modal-body day-list-body">
+          <div
+            class="day-list-item"
+            *ngFor="let ev of dayListEvents"
+            [style.border-left-color]="getColor(ev.department)"
+            (click)="openEventDetail(ev)">
+            <span class="day-list-dept" [style.background]="getColor(ev.department)">
+              {{ ev.department || 'General' }}
+            </span>
+            <div class="day-list-title">{{ ev.title }}</div>
+            <div class="day-list-meta" *ngIf="ev.time">
+              <ion-icon name="time-outline"></ion-icon> {{ ev.time }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal class="event-modal" [isOpen]="modalOpen" (didDismiss)="closeModal()">
+    <ng-template>
+      <div class="modal-card">
+
+        <div class="modal-topbar">
+          <span class="modal-topbar-title">Event Details</span>
+          <button class="modal-close-btn" (click)="closeModal()">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="modal-dept" [style.background]="getColor(selectedEvent?.department)">
+            {{ selectedEvent?.department || 'General' }}
+          </div>
+
+          <h2>{{ selectedEvent?.title }}</h2>
+
+          <div class="info-row">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span><b>Date:</b> {{ selectedEvent?.date }}</span>
+          </div>
+
+          <div class="info-row" *ngIf="selectedEvent?.time">
+            <ion-icon name="time-outline"></ion-icon>
+            <span><b>Time:</b> {{ selectedEvent?.time }}</span>
+          </div>
+
+          <div class="info-row" *ngIf="selectedEvent?.venue">
+            <ion-icon name="location-outline"></ion-icon>
+            <span><b>Venue:</b> {{ selectedEvent?.venue }}</span>
+          </div>
+
+        
+
+          <div class="info-row" *ngIf="selectedEvent?.createdAt">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            <span><b>Posted on:</b> {{ formatCreatedAt(selectedEvent?.createdAt) }}</span>
+          </div>
+
+          <div class="desc-block" *ngIf="selectedEvent?.description">
+            <b>Description</b>
+            <p class="desc">{{ selectedEvent?.description }}</p>
+          </div>
+
+          
+
+        </div>
+
+      </div>
+
+      <div class="modal-actions" *ngIf="selectedEvent">
+
+  <ion-button
+    color="warning"
+    fill="solid"
+    (click)="editEvent(selectedEvent)">
+    <ion-icon slot="start" name="create-outline"></ion-icon>
+    Edit
+  </ion-button>
+
+  <ion-button
+    color="danger"
+    fill="solid"
+    (click)="deleteEvent(selectedEvent.id)">
+    <ion-icon slot="start" name="trash-outline"></ion-icon>
+    Delete
+  </ion-button>
+
+</div>
+
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

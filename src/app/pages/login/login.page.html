@@ -1,0 +1,96 @@
+<ion-content class="login-bg" fullscreen>
+
+  <div class="overlay"></div>
+
+  <div class="login-container">
+
+    <!-- Branding -->
+    <div class="branding">
+
+      <img
+        src="assets/bu-logo.png"
+        class="logo"
+        alt="BU Logo">
+
+      <h1>Baliuag University</h1>
+
+      <p>Student Calendar Portal</p>
+
+    </div>
+
+    <!-- Login Card -->
+    <ion-card class="login-card">
+
+      <ion-card-content>
+
+        <h2>Welcome Back</h2>
+
+        <p class="subtitle">
+          Sign in using your Baliuag University Student Number to access campus events and department schedules.
+        </p>
+
+        <ion-item
+          class="input-item"
+          lines="none">
+
+          <ion-input
+            label="Student Number"
+            labelPlacement="stacked"
+            [(ngModel)]="studentNumber">
+          </ion-input>
+
+        </ion-item>
+
+        <ion-item
+          class="input-item"
+          lines="none">
+
+          <ion-input
+            type="password"
+            label="Password"
+            labelPlacement="stacked"
+            [(ngModel)]="password">
+          </ion-input>
+
+        </ion-item>
+
+        <ion-button
+          expand="block"
+          class="login-btn"
+          (click)="login()">
+
+          Login
+
+        </ion-button>
+
+        <div class="divider">
+
+          New Student?
+
+        </div>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          class="register-btn"
+          (click)="goToRegister()">
+
+          Create Account
+
+        </ion-button>
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <div class="footer">
+
+      © 2026 Baliuag University<br>
+
+      Student Calendar Management System
+
+    </div>
+
+  </div>
+
+</ion-content>

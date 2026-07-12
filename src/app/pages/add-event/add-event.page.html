@@ -1,0 +1,98 @@
+<ion-header translucent="true">
+  <ion-toolbar class="header">
+    <ion-buttons slot="start">
+      <ion-button class="back-btn" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Add Event</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg">
+
+  <div class="container">
+
+    <div class="event-image" *ngIf="imageUrl">
+      <img [src]="imageUrl" alt="Event cover" />
+    </div>
+
+    <div class="hero">
+      <div class="hero-icon">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </div>
+      <div>
+        <h2>Create New Event</h2>
+        <p>Fill in the details for university scheduling</p>
+      </div>
+    </div>
+
+
+    <div class="form-section">
+
+      <ion-item class="field" lines="none">
+        <ion-icon name="text-outline" slot="start" class="field-icon"></ion-icon>
+        <ion-input
+          label="Event Title"
+          labelPlacement="floating"
+          [(ngModel)]="title">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="field" lines="none">
+        <ion-icon name="business-outline" slot="start" class="field-icon"></ion-icon>
+        <ion-select
+          label="Department"
+          labelPlacement="floating"
+          [(ngModel)]="department">
+          <ion-select-option *ngFor="let dept of departments" [value]="dept">
+            {{ dept }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <div class="field-row">
+        <ion-item class="field half" lines="none">
+          <ion-icon name="calendar-outline" slot="start" class="field-icon"></ion-icon>
+          <ion-input type="date" label="Date" labelPlacement="floating"
+            [(ngModel)]="date">
+          </ion-input>
+        </ion-item>
+
+        <ion-item class="field half" lines="none">
+          <ion-icon name="time-outline" slot="start" class="field-icon"></ion-icon>
+          <ion-input type="time" label="Time" labelPlacement="floating"
+            [(ngModel)]="time">
+          </ion-input>
+        </ion-item>
+      </div>
+
+      <ion-item class="field" lines="none">
+        <ion-icon name="location-outline" slot="start" class="field-icon"></ion-icon>
+        <ion-input label="Venue" labelPlacement="floating"
+          [(ngModel)]="venue">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="field" lines="none">
+        <ion-icon name="document-text-outline" slot="start" class="field-icon"></ion-icon>
+        <ion-textarea
+          label="Description"
+          labelPlacement="floating"
+          autoGrow="true"
+          [(ngModel)]="description">
+        </ion-textarea>
+      </ion-item>
+
+    </div>
+
+
+
+    <ion-button expand="block" class="save-btn" (click)="saveEvent()">
+      <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+      Save Event
+    </ion-button>
+
+  </div>
+
+</ion-content>

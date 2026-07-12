@@ -1,0 +1,286 @@
+<!-- SIDE MENU -->
+<ion-menu contentId="home-main" side="start" class="app-menu">
+
+  <ion-content class="menu-content" scrollY="false">
+
+    <div class="menu-scroll">
+
+      <div class="menu-header">
+        <img src="assets/bu-logo.png" />
+        <div>
+          <h2>Baliuag University</h2>
+          <p>Student Calendar Portal</p>
+        </div>
+      </div>
+
+
+      <div class="profile-card" (click)="goProfile()">
+        <img *ngIf="userProfile?.photoBase64" [src]="userProfile.photoBase64" class="profile-avatar-img" />
+        <ion-icon *ngIf="!userProfile?.photoBase64" name="person-circle-outline" class="profile-avatar"></ion-icon>
+        <div class="profile-info">
+          <h3>{{ userProfile?.name || 'Student' }}</h3>
+          <p *ngIf="userProfile?.studentNumber">{{ userProfile.studentNumber }}</p>
+          <p *ngIf="userProfile?.department" class="dept-tag">{{ userProfile.department }}</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="profile-chevron"></ion-icon>
+      </div>
+
+
+      <div class="stat-strip">
+        <div class="stat-pill">
+          <span class="stat-number">{{ upcomingEventsCount }}</span>
+          <span class="stat-label">Upcoming Events</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-number">{{ departments.length }}</span>
+          <span class="stat-label">Departments</span>
+        </div>
+      </div>
+
+
+      <ion-list lines="none" class="menu-list">
+
+        <div class="menu-section-label">Menu</div>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button detail="false" (click)="goProfile()" class="menu-item">
+            <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+            <ion-label>My Profile</ion-label>
+            <ion-icon slot="end" name="chevron-forward-outline" class="item-chevron"></ion-icon>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button detail="false" (click)="goNotifications()" class="menu-item">
+            <ion-icon slot="start" name="notifications-outline"></ion-icon>
+            <ion-label>Notifications</ion-label>
+            <ion-badge slot="end" color="danger" *ngIf="unreadNotifications > 0">{{ unreadNotifications }}</ion-badge>
+            <ion-icon *ngIf="!unreadNotifications" slot="end" name="chevron-forward-outline" class="item-chevron"></ion-icon>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button detail="false" (click)="goSavedEvents()" class="menu-item">
+            <ion-icon slot="start" name="bookmark-outline"></ion-icon>
+            <ion-label>Saved Events</ion-label>
+            <ion-icon slot="end" name="chevron-forward-outline" class="item-chevron"></ion-icon>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <div class="menu-section-label">Support</div>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button detail="false" (click)="goAbout()" class="menu-item">
+            <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+            <ion-label>About</ion-label>
+            <ion-icon slot="end" name="chevron-forward-outline" class="item-chevron"></ion-icon>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button detail="false" (click)="goHelp()" class="menu-item">
+            <ion-icon slot="start" name="help-circle-outline"></ion-icon>
+            <ion-label>Help &amp; FAQs</ion-label>
+            <ion-icon slot="end" name="chevron-forward-outline" class="item-chevron"></ion-icon>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button detail="false" (click)="goContactRegistrar()" class="menu-item">
+            <ion-icon slot="start" name="call-outline"></ion-icon>
+            <ion-label>Contact Registrar</ion-label>
+            <ion-icon slot="end" name="chevron-forward-outline" class="item-chevron"></ion-icon>
+          </ion-item>
+        </ion-menu-toggle>
+
+      </ion-list>
+
+
+      <div class="menu-spacer">
+        <div class="tip-card">
+          <ion-icon name="bulb-outline"></ion-icon>
+          <p>Tap a department on the home screen to filter its events instantly.</p>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="menu-footer">
+      <ion-menu-toggle auto-hide="false">
+        <ion-item button detail="false" (click)="confirmLogout()" class="menu-item logout-item">
+          <ion-icon slot="start" name="log-out-outline"></ion-icon>
+          <ion-label>Logout</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <div class="app-version">Baliuag University &middot; Version 1.0.0</div>
+    </div>
+
+  </ion-content>
+
+</ion-menu>
+
+
+<ion-content class="bg" id="home-main">
+
+
+  <div class="topbar">
+
+  <div class="topbar-left">
+    <ion-menu-button></ion-menu-button>
+
+    <div class="brand">
+      <img src="assets/bu-logo.png" />
+      <div>
+        <h1>Baliuag University</h1>
+        <p>Student Calendar Portal</p>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+<div class="hero">
+
+    <div class="hero-overlay">
+      <h2>Welcome, {{ userProfile?.name || 'Student' }} 👋</h2>
+
+      <p>{{ today | date:'EEEE, MMMM d, y' }}</p>
+
+      <div class="chip">
+        🎓 Stay updated with university events
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="section-title">Quick Access</div>
+
+  <div class="quick">
+
+    <div class="quick-item" (click)="goTo('calendar')">
+      <span class="quick-icon">📅</span>
+      <span>Calendar</span>
+    </div>
+
+    <div class="quick-item" (click)="goTo('events')">
+      <span class="quick-icon">🎉</span>
+      <span>Events</span>
+    </div>
+
+    <div class="quick-item" (click)="goTo('departments')">
+      <span class="quick-icon">🏫</span>
+      <span>Departments</span>
+    </div>
+
+  </div>
+
+
+  <div class="section-title">Departments</div>
+
+  <div class="dept-grid">
+
+    <div
+      class="dept"
+      *ngFor="let dept of departments"
+      (click)="selectDepartment(dept.code)"
+      [style.borderColor]="getColor(dept.code)"
+      [style.background]="getColor(dept.code) + '14'">
+
+      <div class="icon" [style.background]="getColor(dept.code)">
+        {{ dept.icon }}
+      </div>
+
+      <h4>{{ dept.code }}</h4>
+      <p>{{ dept.name }}</p>
+
+    </div>
+
+  </div>
+
+</ion-content>
+
+
+<ion-modal class="about-modal" [isOpen]="logoutConfirmOpen" (didDismiss)="logoutConfirmOpen=false">
+
+  <div class="modal-card">
+
+    <div class="modal-topbar">
+      <span class="modal-topbar-title">Confirm Logout</span>
+      <button class="modal-close-btn" (click)="cancelLogout()">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="about-brand">
+        <ion-icon
+          name="log-out-outline"
+          style="font-size: 48px; color: #ef4444;">
+        </ion-icon>
+        <h2>Are you sure?</h2>
+        <p>You will need to log in again to access your account.</p>
+      </div>
+
+      <ion-button expand="block" color="danger" (click)="doLogout()">
+        Yes, Logout
+      </ion-button>
+
+      <ion-button expand="block" fill="outline" color="medium" (click)="cancelLogout()">
+        Cancel
+      </ion-button>
+
+    </div>
+
+  </div>
+
+</ion-modal>
+
+
+<ion-modal class="dept-preview-modal" [isOpen]="deptPreviewOpen" (didDismiss)="closeDeptPreview()">
+  <div class="modal-card" *ngIf="deptPreviewInfo">
+
+    <div class="dept-preview-header" [style.background]="getColor(deptPreviewInfo.code)">
+      <button class="modal-close-btn" (click)="closeDeptPreview()">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+      <div class="dept-preview-icon">{{ deptPreviewInfo.icon }}</div>
+      <h2>{{ deptPreviewInfo.code }}</h2>
+      <p>{{ deptPreviewInfo.name }}</p>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="dept-preview-count" [style.color]="getColor(deptPreviewInfo.code)">
+        <span class="count-num">{{ deptPreviewCount }}</span>
+        <span class="count-label">total event{{ deptPreviewCount === 1 ? '' : 's' }}</span>
+      </div>
+
+      <div class="dept-preview-list" *ngIf="deptPreviewUpcoming.length > 0">
+        <div class="preview-list-label">Coming up</div>
+        <div class="preview-item" *ngFor="let ev of deptPreviewUpcoming" [style.border-left-color]="getColor(deptPreviewInfo.code)">
+          <div class="preview-item-title">{{ ev.title }}</div>
+          <div class="preview-item-meta">
+            <span *ngIf="ev.date"><ion-icon name="calendar-outline"></ion-icon> {{ ev.date }}</span>
+            <span *ngIf="ev.venue"><ion-icon name="location-outline"></ion-icon> {{ ev.venue }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-empty" *ngIf="deptPreviewUpcoming.length === 0">
+        <p>No upcoming events for this department yet.</p>
+      </div>
+
+      <ion-button expand="block" class="view-all-btn" [style.--background]="getColor(deptPreviewInfo.code)" (click)="viewAllDeptEvents()">
+        View All Events
+        <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+
+    </div>
+
+  </div>
+</ion-modal>

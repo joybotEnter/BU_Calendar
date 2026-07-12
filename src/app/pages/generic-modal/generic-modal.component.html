@@ -1,0 +1,129 @@
+<div class="modal-card">
+
+  <div class="modal-topbar">
+    <span class="modal-topbar-title">
+      <ng-container [ngSwitch]="type">
+        <span *ngSwitchCase="'notifications'">Notifications</span>
+        <span *ngSwitchCase="'saved-events'">Saved Events</span>
+        <span *ngSwitchCase="'help'">Help &amp; FAQs</span>
+        <span *ngSwitchCase="'contact'">Contact Registrar</span>
+      </ng-container>
+    </span>
+    <button class="modal-close-btn" (click)="dismiss()">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+  </div>
+
+  <div class="modal-body">
+
+    
+
+
+    <ng-container *ngIf="type === 'notifications'">
+
+      <div class="modal-subheader">
+        <span>{{ unreadCount }} unread</span>
+        <button class="link-btn" *ngIf="unreadCount > 0" (click)="markAllRead()">Mark all as read</button>
+      </div>
+
+      <div class="notif-list" *ngIf="notifications.length; else emptyNotifs">
+        <div class="notif-item" *ngFor="let n of notifications" [class.unread]="n.unread">
+          <div class="notif-icon">
+            <ion-icon [name]="n.icon"></ion-icon>
+          </div>
+          <div class="notif-text">
+            <h4>{{ n.title }}</h4>
+            <p>{{ n.message }}</p>
+            <span class="notif-time">{{ n.time }}</span>
+          </div>
+          <span class="unread-dot" *ngIf="n.unread"></span>
+        </div>
+      </div>
+
+      <ng-template #emptyNotifs>
+        <div class="empty-state">
+          <ion-icon name="notifications-outline"></ion-icon>
+          <p>You're all caught up. New updates will show up here.</p>
+        </div>
+      </ng-template>
+
+    </ng-container>
+
+
+    <ng-container *ngIf="type === 'saved-events'">
+
+      <div class="saved-list" *ngIf="savedEvents.length; else emptySaved">
+        <div class="saved-item" *ngFor="let e of savedEvents">
+          <div class="saved-dot" [style.background]="e.color"></div>
+          <div class="saved-text">
+            <h4>{{ e.title }}</h4>
+            <p>{{ e.date }}</p>
+          </div>
+          <span class="saved-tag" [style.color]="e.color" [style.borderColor]="e.color">{{ e.department }}</span>
+        </div>
+      </div>
+
+      <ng-template #emptySaved>
+        <div class="empty-state">
+          <ion-icon name="bookmark-outline"></ion-icon>
+          <p>No saved events yet. Bookmark events from the Events tab to see them here.</p>
+        </div>
+      </ng-template>
+
+    </ng-container>
+
+
+    <ng-container *ngIf="type === 'help'">
+
+      <div class="faq-list">
+        <div class="faq-item" *ngFor="let f of faqs" [class.open]="f.open" (click)="toggleFaq(f)">
+          <div class="faq-question">
+            <span>{{ f.question }}</span>
+            <ion-icon name="chevron-down-outline" class="faq-chevron"></ion-icon>
+          </div>
+          <p class="faq-answer" *ngIf="f.open">{{ f.answer }}</p>
+        </div>
+      </div>
+
+      <div class="help-footer">
+        <p>Still stuck? Reach out to the Registrar's office below.</p>
+      </div>
+
+    </ng-container>
+
+
+    <ng-container *ngIf="type === 'contact'">
+
+      <div class="contact-group" *ngFor="let group of contactGroups">
+        <div class="contact-group-label">{{ group.label }}</div>
+
+        <a
+          class="contact-row"
+          *ngFor="let item of group.items"
+          [href]="item.link"
+          [target]="item.isLink ? '_blank' : null"
+          [rel]="item.isLink ? 'noopener noreferrer' : null"
+          [class.no-link]="!item.link">
+
+          <span class="contact-icon" [style.background]="item.iconBg" [style.color]="item.iconColor">
+            <ion-icon [name]="item.icon"></ion-icon>
+          </span>
+
+          <span class="contact-text">
+            <span class="contact-name" [class.link-style]="item.isLink">{{ item.name }}</span>
+            <span class="contact-sub">{{ item.sub }}</span>
+          </span>
+
+        </a>
+      </div>
+
+      <ion-button expand="block" color="success" href="tel:+63447663344">
+        <ion-icon slot="start" name="call-outline"></ion-icon>
+        Call Baliuag University
+      </ion-button>
+
+    </ng-container>
+
+  </div>
+
+</div>

@@ -1,0 +1,152 @@
+<ion-content class="register-bg" fullscreen>
+
+  <div class="register-container">
+
+    <!-- Branding -->
+
+    <div class="branding">
+
+      <img
+        src="assets/bu-logo.png"
+        class="logo">
+
+      <h1>Baliuag University</h1>
+
+      <p>Student Calendar Portal</p>
+
+    </div>
+
+    <!-- Register Card -->
+
+    <ion-card class="login-card">
+
+      <ion-card-content>
+
+        <h2>Create Account</h2>
+
+        <p class="subtitle">
+          Create your Baliuag University student account to access academic
+          events, campus activities, and department schedules.
+        </p>
+
+        <!-- Name -->
+
+        <ion-item
+          class="input-item"
+          lines="none">
+
+          <ion-input
+            label="Full Name"
+            labelPlacement="stacked"
+            [(ngModel)]="name">
+          </ion-input>
+
+        </ion-item>
+
+        <!-- Student Number -->
+
+        <ion-item
+          class="input-item"
+          lines="none">
+
+          <ion-input
+            label="Student Number"
+            labelPlacement="stacked"
+            [(ngModel)]="studentNumber">
+          </ion-input>
+
+        </ion-item>
+
+        <!-- Department -->
+
+        <ion-item
+          class="input-item"
+          lines="none">
+
+          <ion-select
+            label="Department"
+            labelPlacement="stacked"
+            [(ngModel)]="department">
+
+            <ion-select-option
+              *ngFor="let d of departments"
+              [value]="d">
+
+              {{ d }}
+
+            </ion-select-option>
+
+          </ion-select>
+
+        </ion-item>
+
+        <!-- Password -->
+
+        <ion-item
+          class="input-item"
+          lines="none">
+
+          <ion-input
+            type="password"
+            label="Password"
+            labelPlacement="stacked"
+            [(ngModel)]="password">
+          </ion-input>
+
+        </ion-item>
+
+        <!-- Confirm -->
+
+        <ion-item
+          class="input-item"
+          lines="none">
+
+          <ion-input
+            type="password"
+            label="Confirm Password"
+            labelPlacement="stacked"
+            [(ngModel)]="confirmPassword">
+          </ion-input>
+
+        </ion-item>
+
+        <ion-button
+          expand="block"
+          class="login-btn"
+          (click)="register()">
+
+          Create Account
+
+        </ion-button>
+
+        <div class="divider">
+
+          Already have an account?
+
+        </div>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          class="register-btn"
+          routerLink="/login">
+
+          Back to Login
+
+        </ion-button>
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <div class="footer">
+
+      © 2026 Baliuag University<br>
+
+      Student Calendar Management System
+
+    </div>
+
+  </div>
+
+</ion-content>
